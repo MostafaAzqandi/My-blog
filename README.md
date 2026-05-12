@@ -1,2 +1,2 @@
 # My-blog
-In the way of learning...
+A simple blog using(express.js/sequelize/pug template engine)
