@@ -1,6 +1,7 @@
 import express from 'express';
 import methodOverride from 'method-override';
 import dotenv from 'dotenv';
+import path from "path";
 import { sequelize, testConnection } from './config/database.js';
 import postRoutes from './routes/postRoutes.js';
 
@@ -8,6 +9,10 @@ dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+
+
+app.set('view engine', 'pug');
+app.set('views', path.join(import.meta.dirname, 'views'));
 
 // Middleware
 app.use(express.json());

@@ -1,0 +1,20 @@
+extends ../layouts/layout
+
+block content
+    h1 All Posts
+    
+    if posts && posts.length > 0
+        each post in posts
+            .post-card
+                h2.post-title
+                    a(href=`/posts/${post.id}`)= post.title
+                .post-meta
+                    span By #{post.author} | 
+                    span #{post.createdAt.toDateString()} | 
+                    span Views: #{post.viewCount}
+                .post-content
+                    p= post.getSummary(200)
+                a.btn(href=`/posts/${post.id}`) Read More
+    else
+        p No posts yet. 
+            a(href="/create") Create the first post!

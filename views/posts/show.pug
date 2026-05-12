@@ -1,0 +1,22 @@
+extends ../layouts/layout
+
+block content
+    .post-card
+        h1= post.title
+        .post-meta
+            span By #{post.author} | 
+            span #{post.createdAt.toDateString()} | 
+            span Views: #{post.viewCount}
+            if post.isNew()
+                span  | 🆕 New!
+        
+        .post-content
+            p= post.content
+        
+        hr
+        
+        .actions
+            a.btn(href=`/posts/${post.id}/edit`) Edit
+            form(action=`/posts/${post.id}?_method=DELETE`, method="POST", style="display: inline;")
+                button.btn(type="submit", onclick="return confirm('Are you sure?')") Delete
+            a.btn(href="/") Back to Home
