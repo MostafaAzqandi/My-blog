@@ -1,0 +1,49 @@
+extends ../layouts/layout
+
+block content
+    h1 Edit User
+    div(style="margin-bottom: 20px;")
+        a.btn(href="/admin/users", style="margin-right: 10px;") ← Back to Users
+    
+    if error
+        .error(style="background: #fee; color: #c00; padding: 10px; margin-bottom: 20px; border-radius: 5px;")
+            p= error
+    
+    form(action=`/admin/users/${user.id}?_method=PUT`, method="POST")
+        div(style="margin-bottom: 15px;")
+            label(for="fullName", style="display: block; margin-bottom: 5px; font-weight: bold;") Full Name
+            input(type="text", name="fullName", id="fullName", value=user.fullName, style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;")
+        
+        div(style="margin-bottom: 15px;")
+            label(style="display: block; margin-bottom: 5px; font-weight: bold;") Username
+            input(type="text", value=user.username, disabled, style="width: 100%; padding: 10px; background: #f0f0f0; border: 1px solid #ddd; border-radius: 5px;")
+            small(style="color: #666;") Username cannot be changed
+        
+        div(style="margin-bottom: 15px;")
+            label(style="display: block; margin-bottom: 5px; font-weight: bold;") Email
+            input(type="email", value=user.email, disabled, style="width: 100%; padding: 10px; background: #f0f0f0; border: 1px solid #ddd; border-radius: 5px;")
+            small(style="color: #666;") Email cannot be changed
+        
+        div(style="margin-bottom: 15px;")
+            label(for="role", style="display: block; margin-bottom: 5px; font-weight: bold;") Role
+            select(name="role", id="role", style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;")
+                option(value="user", selected=user.role === 'user') User
+                option(value="admin", selected=user.role === 'admin') Admin
+        
+        div(style="margin-bottom: 15px;")
+            label(style="display: flex; align-items: center;")
+                input(type="checkbox", name="isActive", checked=user.isActive, style="margin-right: 10px;")
+                span Account Active
+        
+        div(style="margin: 20px 0; padding: 15px; background: #f7fafc; border-radius: 5px;")
+            p(style="margin: 5px 0;") <strong>User ID:</strong> #{user.id}
+            p(style="margin: 5px 0;") <strong>Joined:</strong> #{new Date(user.createdAt).toLocaleString()}
+            p(style="margin: 5px 0;") <strong>Posts Count:</strong> #{user.posts ? user.posts.length : 0}
+        
+        button(type="submit", style="background: #4299e1; color: white; padding: 12px 24px; border: none; border-radius: 5px; cursor: pointer;") Update User
+    
+    if user.id !== session.userId
+        hr
+        div(style="margin-top: 20px;")
+            form(action=`/admin/users/${user.id}?_method=DELETE`, method="POST", onsubmit="return confirm('Delete this user? All their posts will be permanently deleted!');")
+                button(type="submit", style="background: #e53e3e; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;") Delete User Permanently

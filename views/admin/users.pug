@@ -1,0 +1,40 @@
+extends ../layouts/layout
+
+block content
+    h1 Manage Users
+    a.btn(href="/admin", style="margin-bottom: 20px; display: inline-block;") ← Back to Dashboard
+    
+    if users && users.length > 0
+        table(style="width: 100%; border-collapse: collapse; margin-top: 20px;")
+            thead
+                tr
+                    th(style="text-align: left; padding: 12px; background: #333; color: white;") ID
+                    th(style="text-align: left; padding: 12px; background: #333; color: white;") Username
+                    th(style="text-align: left; padding: 12px; background: #333; color: white;") Full Name
+                    th(style="text-align: left; padding: 12px; background: #333; color: white;") Email
+                    th(style="text-align: left; padding: 12px; background: #333; color: white;") Role
+                    th(style="text-align: left; padding: 12px; background: #333; color: white;") Status
+                    th(style="text-align: left; padding: 12px; background: #333; color: white;") Joined
+                    th(style="text-align: left; padding: 12px; background: #333; color: white;") Actions
+            tbody
+                each user in users
+                    tr
+                        td(style="padding: 12px; border-bottom: 1px solid #ddd;") #{user.id}
+                        td(style="padding: 12px; border-bottom: 1px solid #ddd;") #{user.username}
+                        td(style="padding: 12px; border-bottom: 1px solid #ddd;") #{user.fullName}
+                        td(style="padding: 12px; border-bottom: 1px solid #ddd;") #{user.email}
+                        td(style="padding: 12px; border-bottom: 1px solid #ddd;") 
+                            span(style=`background: ${user.role === 'admin' ? '#ed8936' : '#4299e1'}; color: white; padding: 4px 8px; border-radius: 4px; font-size: 12px;`) #{user.role}
+                        td(style="padding: 12px; border-bottom: 1px solid #ddd;")
+                            if user.isActive
+                                span(style="color: #48bb78;") ✓ Active
+                            else
+                                span(style="color: #e53e3e;") ✗ Disabled
+                        td(style="padding: 12px; border-bottom: 1px solid #ddd;") #{new Date(user.createdAt).toLocaleDateString()}
+                        td(style="padding: 12px; border-bottom: 1px solid #ddd;")
+                            a(href=`/admin/users/${user.id}/edit`, style="margin-right: 10px;") Edit
+                            if user.id !== session.userId
+                                form(action=`/admin/users/${user.id}?_method=DELETE`, method="POST", style="display: inline;")
+                                    button(type="submit", onclick="return confirm('Delete this user? All their posts will be deleted!')", style="background: #e53e3e; color: white; border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer;") Delete
+    else
+        p No users found.

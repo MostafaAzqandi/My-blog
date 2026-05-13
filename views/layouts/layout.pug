@@ -107,7 +107,15 @@ html
         nav
             .container
                 a(href="/") Home
-                a(href="/create") New Post
+                if isLoggedIn
+                    a(href="/create") New Post
+                    if isAdmin
+                        a(href="/admin", style="background: #ed8936;") Admin Panel
+                    span(style="color: white; margin: 0 10px;") Welcome, #{userName}!
+                    a(href="/logout") Logout
+                else
+                    a(href="/login") Login
+                    a(href="/register") Register
         
         .container
             block content

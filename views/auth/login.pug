@@ -1,0 +1,24 @@
+extends ../layouts/layout
+
+block content
+    .auth-container(style="max-width: 400px; margin: 50px auto;")
+        h1 Login
+        
+        if error
+            .error(style="background: #fee; color: #c00; padding: 10px; margin-bottom: 20px; border-radius: 5px;")
+                p= error
+        
+        form(action="/login", method="POST")
+            div(style="margin-bottom: 15px;")
+                label(for="email", style="display: block; margin-bottom: 5px;") Email *
+                input(type="email", name="email", id="email", required, style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;")
+            
+            div(style="margin-bottom: 15px;")
+                label(for="password", style="display: block; margin-bottom: 5px;") Password *
+                input(type="password", name="password", id="password", required, style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;")
+            
+            button(type="submit", style="width: 100%; padding: 12px; background: #333; color: white; border: none; border-radius: 5px; cursor: pointer;") Login
+        
+        p(style="margin-top: 20px; text-align: center;")
+            | Don't have an account? 
+            a(href="/register") Register here

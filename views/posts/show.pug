@@ -4,11 +4,9 @@ block content
     .post-card
         h1= post.title
         .post-meta
-            span By #{post.author} | 
+            span By #{post.author.username} | 
             span #{post.createdAt.toDateString()} | 
             span Views: #{post.viewCount}
-            if post.isNew()
-                span  | 🆕 New!
         
         .post-content
             p= post.content

@@ -1,0 +1,37 @@
+extends ../layouts/layout
+
+block content
+    h1 Edit Post (Admin)
+    div(style="margin-bottom: 20px;")
+        a.btn(href="/admin/posts", style="margin-right: 10px;") ← Back to Posts
+    
+    if error
+        .error(style="background: #fee; color: #c00; padding: 10px; margin-bottom: 20px; border-radius: 5px;")
+            p= error
+    
+    form(action=`/admin/posts/${post.id}?_method=PUT`, method="POST")
+        div(style="margin-bottom: 15px;")
+            label(for="title", style="display: block; margin-bottom: 5px; font-weight: bold;") Title *
+            input(type="text", name="title", id="title", required, value=post.title, style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;")
+        
+        div(style="margin-bottom: 15px;")
+            label(for="content", style="display: block; margin-bottom: 5px; font-weight: bold;") Content *
+            textarea(name="content", id="content", required, rows="15", style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; font-family: monospace;")= post.content
+        
+        div(style="margin-bottom: 15px;")
+            label(style="display: flex; align-items: center;")
+                input(type="checkbox", name="published", checked=post.published, style="margin-right: 10px;")
+                span Published
+        
+        div(style="margin: 20px 0; padding: 15px; background: #f7fafc; border-radius: 5px;")
+            p(style="margin: 5px 0;") <strong>Author:</strong> #{post.author ? post.author.username : 'Anonymous'}
+            p(style="margin: 5px 0;") <strong>Created:</strong> #{new Date(post.createdAt).toLocaleString()}
+            p(style="margin: 5px 0;") <strong>Last Updated:</strong> #{new Date(post.updatedAt).toLocaleString()}
+            p(style="margin: 5px 0;") <strong>View Count:</strong> #{post.viewCount}
+        
+        button(type="submit", style="background: #4299e1; color: white; padding: 12px 24px; border: none; border-radius: 5px; cursor: pointer;") Update Post
+    
+    hr
+    div(style="margin-top: 20px;")
+        form(action=`/admin/posts/${post.id}?_method=DELETE`, method="POST", onsubmit="return confirm('Permanently delete this post?');")
+            button(type="submit", style="background: #e53e3e; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;") Delete Post Permanently

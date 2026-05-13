@@ -1,0 +1,40 @@
+extends ../layouts/layout
+
+block content
+    h1 Manage All Posts
+    div(style="margin-bottom: 20px;")
+        a.btn(href="/admin", style="margin-right: 10px;") ← Back to Dashboard
+        a.btn(href="/create", style="background: #48bb78;") + Create New Post
+    
+    if posts && posts.length > 0
+        table(style="width: 100%; border-collapse: collapse; margin-top: 20px;")
+            thead
+                tr
+                    th(style="text-align: left; padding: 12px; background: #333; color: white;") ID
+                    th(style="text-align: left; padding: 12px; background: #333; color: white;") Title
+                    th(style="text-align: left; padding: 12px; background: #333; color: white;") Author
+                    th(style="text-align: left; padding: 12px; background: #333; color: white;") Status
+                    th(style="text-align: left; padding: 12px; background: #333; color: white;") Views
+                    th(style="text-align: left; padding: 12px; background: #333; color: white;") Created
+                    th(style="text-align: left; padding: 12px; background: #333; color: white;") Actions
+            tbody
+                each post in posts
+                    tr
+                        td(style="padding: 12px; border-bottom: 1px solid #ddd;") #{post.id}
+                        td(style="padding: 12px; border-bottom: 1px solid #ddd;") 
+                            a(href=`/posts/${post.id}`) #{post.title.substring(0, 50)}
+                        td(style="padding: 12px; border-bottom: 1px solid #ddd;") #{post.author ? post.author.username : 'Anonymous'}
+                        td(style="padding: 12px; border-bottom: 1px solid #ddd;")
+                            if post.published
+                                span(style="background: #48bb78; color: white; padding: 4px 8px; border-radius: 4px; font-size: 12px;") Published
+                            else
+                                span(style="background: #ed8936; color: white; padding: 4px 8px; border-radius: 4px; font-size: 12px;") Draft
+                        td(style="padding: 12px; border-bottom: 1px solid #ddd;") #{post.viewCount}
+                        td(style="padding: 12px; border-bottom: 1px solid #ddd;") #{new Date(post.createdAt).toLocaleDateString()}
+                        td(style="padding: 12px; border-bottom: 1px solid #ddd;")
+                            a(href=`/admin/posts/${post.id}/edit`, style="margin-right: 10px; background: #4299e1; color: white; padding: 4px 8px; border-radius: 4px; text-decoration: none;") Edit
+                            form(action=`/admin/posts/${post.id}?_method=DELETE`, method="POST", style="display: inline;")
+                                button(type="submit", onclick="return confirm('Delete this post?')", style="background: #e53e3e; color: white; border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer;") Delete
+    else
+        p No posts found.
+        a.btn(href="/create") Create your first post

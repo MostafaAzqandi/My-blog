@@ -1,0 +1,16 @@
+extends layouts/layout
+
+block content
+    .error-container(style="text-align: center; padding: 50px 20px;")
+        .error-code(style="font-size: 120px; font-weight: bold; color: #667eea; margin-bottom: 20px;")
+            | 404
+        
+        .error-title(style="font-size: 32px; color: #333; margin-bottom: 15px;")
+            | Page Not Found
+        
+        .error-message(style="color: #666; margin-bottom: 30px; font-size: 18px; max-width: 500px; margin-left: auto; margin-right: auto;")
+            p The page you're looking for doesn't exist or has been moved.
+        
+        .error-actions
+            a.btn(href="/", style="background: #667eea; margin-right: 10px;") Go Home
+            button.btn-secondary(onclick="history.back()", style="background: #48bb78; border: none; cursor: pointer;") Go Back

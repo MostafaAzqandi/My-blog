@@ -1,0 +1,24 @@
+extends layouts/layout
+
+block content
+    .error-container(style="text-align: center; padding: 50px 20px;")
+        .error-code(style="font-size: 100px; font-weight: bold; color: #e53e3e; margin-bottom: 20px;")
+            if status
+                = status
+            else
+                | Error
+        
+        .error-title(style="font-size: 32px; color: #333; margin-bottom: 15px;")
+            = title || 'Something Went Wrong'
+        
+        .error-message(style="color: #666; margin-bottom: 30px; font-size: 18px; max-width: 500px; margin-left: auto; margin-right: auto;")
+            p= message || 'An unexpected error occurred. Please try again later.'
+        
+        .error-actions
+            a.btn(href="/", style="background: #667eea; margin-right: 10px;") Go Home
+            button.btn-secondary(onclick="history.back()", style="background: #48bb78; border: none; cursor: pointer;") Go Back
+        
+        if stack && process.env.NODE_ENV === 'development'
+            .error-stack(style="margin-top: 40px; background: #2d3748; color: #fbbf24; padding: 20px; border-radius: 8px; text-align: left; font-family: monospace; font-size: 12px; overflow-x: auto;")
+                strong Error Stack:
+                pre(style="margin-top: 10px; white-space: pre-wrap;") #{stack}
